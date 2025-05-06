@@ -1,8 +1,8 @@
-# 🚀 Polished Streamlit App - Resume Matcher
+# 🚀 Fully Updated Streamlit App - Resume Matcher with Dynamic Suggestions (NER Model)
 
 import streamlit as st
 from utils.resume_parser import extract_text_from_pdf
-from utils.model_utils import calculate_match_score, predict_category
+from utils.model_utils import calculate_match_score, predict_category, suggest_resume_improvements_dynamic
 from sentence_transformers import SentenceTransformer
 import pandas as pd
 
@@ -40,12 +40,13 @@ if page == "Resume Matcher":
             with st.spinner("Analyzing..."):
                 match_score = calculate_match_score(resume_text, job_description, model)
                 predicted_role = predict_category(resume_text)
+                missing_keywords = suggest_resume_improvements_dynamic(job_description, resume_text)
 
             # --- Results ---
             st.subheader("\U0001F4CA Results")
 
             # Show Match Score
-            st.progress(match_score / 100)  # Fixed division for Streamlit progress bar
+            st.progress(match_score / 100)
             st.metric(label="Match Score", value=f"{match_score}%")
 
             # Interpretation
@@ -60,6 +61,14 @@ if page == "Resume Matcher":
             st.subheader("\U0001F4D6 Predicted Resume Category")
             st.markdown(f"### 🎯 `{predicted_role}`")
 
+            # Suggestions for Improvement
+            st.subheader("🛠 Suggestions to Tailor Your Resume")
+            if missing_keywords:
+                st.write("Consider adding or emphasizing these dynamically identified skills, tools, or technologies to better align your resume:")
+                st.markdown(", ".join(f"`{word}`" for word in missing_keywords))
+            else:
+                st.success("Your resume already covers most critical skills! 🚀")
+
         else:
             st.error("Please upload a resume and paste a job description.")
 
@@ -71,15 +80,15 @@ elif page == "About Project":
     - Match it against job descriptions
     - Predict your career category
     - Offer resume optimization advice
-    
+
     Built using:
     - Streamlit
     - Sentence Transformers
     - Random Forest Classifier
     - TF-IDF Vectorization
-    
+
     Ideal for career advisors, job seekers, and recruiters.
     """)
 
 st.sidebar.markdown("---")
-st.sidebar.caption("Built with 💬 by [Your Name] | Demo Project 2025")
+st.sidebar.caption("Built with 💬 by Hassan Amin| Demo Project 2025")
