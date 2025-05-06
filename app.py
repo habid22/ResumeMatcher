@@ -12,8 +12,21 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 st.set_page_config(page_title="AI Resume Matcher", layout="wide")
 
 # --- Header ---
-st.title("\U0001F4BC ATS Resume Matcher")
+st.title("\U0001F4BC ATS Resume Matcher (Experimental)")
 st.subheader("Machine Learning Resume Matching Tool")
+st.markdown(
+    """
+    <div style='background-color: #333; padding: 15px; border: 1px solid #555; border-radius: 5px;'>
+        <span style='color: #ffcc00; font-weight: bold;'>⚠️ Disclaimer:</span> 
+        <span style='color: #ddd;'>This tool provides experimental results based on Machine Learning models. 
+        Match scores and suggestions may not fully represent actual hiring outcomes. 
+        Always review and tailor your resume carefully!</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 
 # --- Sidebar ---
@@ -47,8 +60,11 @@ if page == "Resume Matcher":
             st.subheader("\U0001F4CA Results")
 
             # Show Match Score
-            st.progress(match_score / 100)
-            st.metric(label="Match Score", value=f"{match_score}%")
+            match_score_normalized = float(match_score) / 100
+            st.progress(match_score_normalized)
+
+            st.metric(label="Match Score", value=f"{match_score:.2f}%")
+
 
             # Interpretation
             if match_score >= 80:
