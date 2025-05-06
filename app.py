@@ -12,8 +12,9 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 st.set_page_config(page_title="AI Resume Matcher", layout="wide")
 
 # --- Header ---
-st.title("\U0001F4BC AI Resume Matcher & Career Advisor")
-st.markdown("Effortlessly match your resume with any job description and get career insights!")
+st.title("\U0001F4BC ATS Resume Matcher")
+st.subheader("Machine Learning Resume Matching Tool")
+
 
 # --- Sidebar ---
 st.sidebar.header("Navigation")
